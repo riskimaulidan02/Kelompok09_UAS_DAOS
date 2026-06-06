@@ -145,7 +145,7 @@ void tampilkan_prioritas(Node* head) {
         printf("Tidak ada tugas untuk diprioritaskan.\n");
         return;
     }
-    printf("\n--- Rekomendasi Prioritas (Algoritma Greedy) ---\n");
+    printf("\n--- Rekomendasi Prioritas ---\n");
     int i = 1;
     while (head != NULL) {
         printf("%d.", i++); 
