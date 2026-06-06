@@ -45,5 +45,14 @@ int main() {
                 // Tampilkan daftar tugas disorting berdasarkan deadline
                 tampilkan_tugas(daftar_tugas);
                 break;
+            case 4:
+                // Bebaskan memori rekomendasi tugas lama sebelum menghasilkan yang baru
+                free_list(rekomendasi_tugas); 
+                // Tampilkan rekomendasi prioritas berdasarkan skor prioritas yang dihitung dari data tugas
+                rekomendasi_tugas = generate_priority_queue(daftar_tugas);
+                // Fungsi tampilkan_prioritas akan menampilkan tugas-tugas berdasarkan skor prioritas tertinggi
+                tampilkan_prioritas(rekomendasi_tugas);
+                break;
         }
+        
 }  while (pilihan != 6);
