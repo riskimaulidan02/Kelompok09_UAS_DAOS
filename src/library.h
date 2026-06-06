@@ -17,7 +17,14 @@ typedef struct Node {
 
 // Insert terurut berdasarkan sisa hari (Ascending)
 Node* sorting_insert_by_deadline(Node* head, Node data_baru); 
+// Insert terurut berdasarkan skor prioritas (Descending / Greedy)
+Node* sorting_insert_by_prioritas(Node* head, Node data_baru); 
+
 // fungsi untuk menampilkan data tugas
 void tampilkan_tugas(Node* head);
+// fungsi untuk menampilkan rekomendasi berdasarkan skor prioritas
+void tampilkan_prioritas(Node* head);
+// fungsi untuk menghasilkan priority queue baru yang berisi tugas-tugas dengan skor prioritas terhitung
+Node* generate_priority_queue(Node* mainList);
 
 #endif
