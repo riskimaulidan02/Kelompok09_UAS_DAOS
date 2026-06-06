@@ -1,4 +1,12 @@
-#include "library.h"
+#include "header.h"
+
+// Insert di awal
+Node* insert_head(Node* head, Node data_baru) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    *newNode = data_baru;
+    newNode->next = head;
+    return newNode;       
+}
 
 // Insert terurut berdasarkan sisa hari (Ascending)
 Node* sorting_insert_by_deadline(Node* head, Node data_baru) {
@@ -54,6 +62,68 @@ void tampilkan_tugas(Node* head) {
     }
 }
 
+// Fungsi untuk mencari tugas berdasarkan keyword
+void cari_tugas(Node* head, char keyword[]) {
+    int found = 0;
+    while (head != NULL) {
+        if (strstr(head->nama_tugas, keyword) != NULL) {
+            printf("Ditemukan Tugas: %s\n", head->nama_tugas);
+            printf("       Deadline: %d hari\n", head->sisa_hari_Deadline);
+            printf("    Bobot Nilai: %.1f%%\n", head->bobot_nilai);
+            printf(" Estimasi Waktu: %.1f Jam\n\n", head->estimasi_waktu);
+            found = 1;
+        }
+        head = head->next;
+    }
+    if (!found) {
+        printf("Tugas tidak ditemukan.\n");
+    }
+}
+
+// Fungsi untuk menandai tugas selesai dan memindahkannya ke riwayat
+Node* finish_tugas(Node* head, char nama[], Node* temp_selesai, int* found) {
+    *found = 0;
+    if (head == NULL) return NULL;
+
+    if (strcmp(head->nama_tugas, nama) == 0) {
+        Node* temp = head;
+        head = head->next;
+        *temp_selesai = *temp;
+        free(temp);
+        *found = 1;
+        return head;
+    }
+
+    Node* current = head;
+    while (current->next != NULL && strcmp(current->next->nama_tugas, nama) != 0) {
+        current = current->next;
+    }
+
+    if (current->next != NULL) {
+        Node* temp = current->next;
+        current->next = temp->next;
+        *temp_selesai = *temp;
+        free(temp);
+        *found = 1;
+    }
+    return head;
+}
+
+// Fungsi untuk undo tugas selesai dengan memindahkannya kembali ke daftar tugas
+Node* popHead(Node* head, Node* poppedData, int* success) {
+    *success = 0;
+    if (head == NULL) return NULL;
+
+    Node* temp = head;
+    *poppedData = *temp;
+    head = head->next;
+    
+    free(temp);
+    *success = 1;
+    
+    return head;
+}
+
 // Fungsi untuk menghasilkan priority queue baru yang berisi tugas-tugas dengan skor prioritas terhitung
 Node* generate_priority_queue(Node* mainList) {
     Node* pqHead = NULL;
@@ -75,7 +145,7 @@ void tampilkan_prioritas(Node* head) {
         printf("Tidak ada tugas untuk diprioritaskan.\n");
         return;
     }
-    printf("\n--- Rekomendasi Prioritas (Algoritma Greedy) ---\n");
+    printf("\n--- Rekomendasi Prioritas ---\n");
     int i = 1;
     while (head != NULL) {
         printf("%d.", i++); 
@@ -85,5 +155,14 @@ void tampilkan_prioritas(Node* head) {
         printf("   Bobot Nilai: %.1f%%\n", head->bobot_nilai);
         printf("   Estimasi Waktu: %.1f Jam\n\n", head->estimasi_waktu);
         head = head->next;
+    }
+}
+
+// Fungsi untuk membebaskan memori
+void free_list(Node* head) {
+    while (head != NULL) {
+        Node* temp = head;
+        head = head->next;
+        free(temp);
     }
 }
