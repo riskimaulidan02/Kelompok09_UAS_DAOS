@@ -1,2 +1,2 @@
 all :
-	gcc -Wall main.c display.c -o uasTim9
+	gcc -Wall main.c fungsi.c -o uasTim9
